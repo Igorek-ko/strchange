@@ -1,5 +1,6 @@
 <?php
 
+// функция, которая меняет порядок букв
 function revertCharacters($str)
 {
     $str1 = "";
@@ -29,11 +30,19 @@ function revertCharacters($str)
         $word ="";
     }
 
-    if ($str[$i] === " ")
+    if ($str[$i] === " " OR ($i===strlen($str)-1))
     {
-        $word = strrev($word);
-        $word .= $str[$i];
-        $str1 .= $word;
+        $wordrev = strrev($word);
+        for ($j=0; $j<strlen($word); $j++)
+        {
+            if (ctype_upper($word[$j]))
+                $wordrev[$j] = strtoupper($wordrev[$j]);
+
+            if (ctype_lower($word[$j]))
+                $wordrev[$j] = strtolower($wordrev[$j]);
+        }
+        if ($str[$i] === " ") $wordrev .= $str[$i];
+        $str1 .= $wordrev;
         $word="";
     }
 }
@@ -41,5 +50,30 @@ return $str1;
 }
 
 
-echo revertCharacters("Hel,lo my brother, World!");
+
+// функция umit-теста
+function unittest($arraystr, $arraystr1){
+
+    $retrn = "<br/>";
+    for ($n=0; $n<count($arraystr); $n++) {
+        $arraystr11[$n] = revertCharacters($arraystr[$n]);
+        echo $arraystr[$n] . "<br/>";
+        echo $arraystr11[$n] . "<br/>";
+        if  ($arraystr11[$n] === $arraystr1[$n]) $retrn .=  $n . "OK<br/>"; else $retrn = $n . "err<br/>";
+    }
+return $retrn;
+}
+
+// посылаемые строки для проверки и строки которые должны получить
+$strr1= array ("Hello, World",
+    "Hi, people! World is so beautiful!@#",
+    "123");
+$strr2 = array("Olleh, Dlrow",
+    "Ih, elpoep! Dlrow si os lufituaeb!#@",
+    "321"
+
+);
+
+echo unittest($strr1 , $strr2);
+
 ?>
